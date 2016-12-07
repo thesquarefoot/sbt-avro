@@ -4,9 +4,10 @@ import java.io.File
 import scala.collection.mutable
 import scala.io.Source
 
-//import org.apache.avro.tool.SpecificCompilerTool
-
-//import scala.collection.JavaConverters._
+import org.apache.avro.{Protocol, Schema}
+import org.apache.avro.compiler.idl.Idl
+import org.apache.avro.compiler.specific.SpecificCompiler
+import org.apache.avro.generic.GenericData.StringType
 
 import sbt._
 import sbt.ConfigKey.configurationToKey
@@ -46,7 +47,6 @@ object SbtAvro extends AutoPlugin {
       managedSourceDirectories in Compile <+= (javaSource in avroConfig),
       cleanFiles <+= (javaSource in avroConfig),
       libraryDependencies <+= (version in avroConfig)("org.apache.avro" % "avro-compiler" % _),
-      //libraryDependencies <+= (version in avroConfig)("org.apache.avro" % "avro-tools" % _),
       ivyConfigurations += avroConfig
     )
   }
@@ -61,10 +61,6 @@ object SbtAvro extends AutoPlugin {
   override val projectSettings = avroSettings
 
   private[this] def compile(srcDir: File, target: File, log: Logger, stringTypeName: String, fieldVisibilityName: String) = {
-    import org.apache.avro.{Protocol, Schema}
-    import org.apache.avro.compiler.idl.Idl
-    import org.apache.avro.compiler.specific.SpecificCompiler
-    import org.apache.avro.generic.GenericData.StringType
     val stringType = StringType.valueOf(stringTypeName);
     log.info("Avro compiler using stringType=%s".format(stringType));
 
@@ -90,16 +86,9 @@ object SbtAvro extends AutoPlugin {
 
     for (protocol <- (srcDir ** "*.avpr").get) {
       log.info("Compiling Avro protocol %s".format(protocol))
-      //val src = protocol.asFile
-      //val avroProtocol = Protocol.parse(src)
-      //val compiler = new SpecificCompiler(avroProtocol)
-      //compiler.setStringType(stringType)
-      //compiler.compileToDestination(src, target)
       SpecificCompiler.compileProtocol(protocol.asFile, target)
     }
 
-    //(new org.apache.avro.tool.SpecificCompilerTool).run(null, null, null, scala.collection.mutable.Buffer[String]("protocol", srcDir.toString, target.toString).asJava)
-   
     (target ** "*.java").get.toSet
   }
 
