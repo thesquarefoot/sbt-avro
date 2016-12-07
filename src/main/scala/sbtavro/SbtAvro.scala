@@ -36,7 +36,7 @@ object SbtAvro extends AutoPlugin {
       javaSource <<= (sourceManaged in Compile) { _ / "compiled_avro" },
       stringType := "CharSequence",
       fieldVisibility := "public_deprecated",
-      version := "1.7.3",
+      version := "1.8.1",
 
       managedClasspath <<= (classpathTypes, update) map { (ct, report) =>
         Classpaths.managedJars(avroConfig, ct, report)
@@ -86,7 +86,11 @@ object SbtAvro extends AutoPlugin {
 
     for (protocol <- (srcDir ** "*.avpr").get) {
       log.info("Compiling Avro protocol %s".format(protocol))
-      SpecificCompiler.compileProtocol(protocol.asFile, target)
+      val src = protocol.asFile
+      val avroProtocol = Protocol.parse(src)
+      val compiler = new SpecificCompiler(avroProtocol)
+      compiler.setStringType(stringType)
+      compiler.compileToDestination(src, target)
     }
 
     (target ** "*.java").get.toSet
