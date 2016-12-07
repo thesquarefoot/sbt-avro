@@ -87,7 +87,7 @@ object SbtAvro extends AutoPlugin {
       compiler.compileToDestination(null, target)
     }
 
-    for (protocol <- (srcDir ** "*.avpr").get) {
+    /*for (protocol <- (srcDir ** "*.avpr").get) {
       log.info("Compiling Avro protocol %s".format(protocol))
       val src = protocol.asFile
       val avroProtocol = Protocol.parse(src)
@@ -95,7 +95,7 @@ object SbtAvro extends AutoPlugin {
       compiler.setStringType(stringType)
       compiler.compileToDestination(src, target)
 
-    }
+    }*/
 
     (new org.apache.avro.tool.SpecificCompilerTool).run(null, null, null, scala.collection.mutable.Buffer[String]("protocol", srcDir.toString, target.toString).asJava)
    
