@@ -10,9 +10,9 @@ scalaVersion := appConfiguration.value.provider.scalaProvider.version
 scalacOptions in Compile ++= Seq("-deprecation")
 
 libraryDependencies ++= Seq(
-  "org.apache.avro" % "avro" % "1.8.1",
-  "org.apache.avro" % "avro-compiler" % "1.8.1",
-  "org.apache.avro" % "avro-tools" % "1.8.1",
+  //"org.apache.avro" % "avro" % "1.8.1",
+  //"org.apache.avro" % "avro-compiler" % "1.8.1",
+  // "org.apache.avro" % "avro-tools" % "1.8.1",
   "org.specs2" %% "specs2-core" % "3.6.4" % "test"
 )
 
