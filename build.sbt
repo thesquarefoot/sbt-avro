@@ -10,8 +10,9 @@ scalaVersion := appConfiguration.value.provider.scalaProvider.version
 scalacOptions in Compile ++= Seq("-deprecation")
 
 libraryDependencies ++= Seq(
-  "org.apache.avro" % "avro" % "1.7.7",
-  "org.apache.avro" % "avro-compiler" % "1.7.7",
+  "org.apache.avro" % "avro" % "1.8.1",
+  "org.apache.avro" % "avro-compiler" % "1.8.1",
+  "org.apache.avro" % "avro-tools" % "1.8.1",
   "org.specs2" %% "specs2-core" % "3.6.4" % "test"
 )
 
@@ -19,7 +20,7 @@ licenses += ("BSD 3-Clause", url("https://github.com/sbt/sbt-avro/blob/master/LI
 publishMavenStyle := false
 bintrayOrganization := Some("sbt")
 bintrayRepository := "sbt-plugin-releases"
-bintrayPackage := "sbt-avro-1.7"
+bintrayPackage := "sbt-avro-1.8"
 bintrayReleaseOnPublish := false
 
 ScriptedPlugin.scriptedSettings

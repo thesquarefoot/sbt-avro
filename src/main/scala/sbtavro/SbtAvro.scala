@@ -8,6 +8,9 @@ import org.apache.avro.{Protocol, Schema}
 import org.apache.avro.compiler.idl.Idl
 import org.apache.avro.compiler.specific.SpecificCompiler
 import org.apache.avro.generic.GenericData.StringType
+import org.apache.avro.tool.SpecificCompilerTool
+import scala.collection.JavaConverters._
+
 
 import sbt._
 import sbt.ConfigKey.configurationToKey
@@ -91,8 +94,11 @@ object SbtAvro extends AutoPlugin {
       val compiler = new SpecificCompiler(avroProtocol)
       compiler.setStringType(stringType)
       compiler.compileToDestination(src, target)
+
     }
 
+    (new org.apache.avro.tool.SpecificCompilerTool).run(null, null, null, scala.collection.mutable.Buffer[String]("protocol", srcDir.toString, target.toString).asJava)
+   
     (target ** "*.java").get.toSet
   }
 
